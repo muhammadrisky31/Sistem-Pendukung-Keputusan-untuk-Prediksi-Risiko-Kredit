@@ -8,71 +8,133 @@
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #eef3f7;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #eef2f3, #dfe9f3);
         }
 
-        .container {
+        /* NAVBAR */
+        .navbar {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 90vh;
-            text-align: center;
-            flex-direction: column;
+            justify-content: space-between;
+            padding: 15px 50px;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        .image {
-            max-width: 400px;
-        }
-
-        .title {
-            margin-top: 20px;
-            font-size: 20px;
-            font-weight: bold;
+        .navbar h2 {
+            margin: 0;
             color: #2c3e50;
         }
 
-        .subtitle {
-            font-size: 14px;
-            color: #7f8c8d;
-            margin-top: 5px;
+        .nav-links a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        /* HERO */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 60px;
+        }
+
+        .hero-text {
+            max-width: 50%;
+        }
+
+        .hero-text h1 {
+            font-size: 32px;
+            color: #2c3e50;
+        }
+
+        .hero-text p {
+            color: #555;
+            margin: 15px 0;
         }
 
         .btn {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #3498db;
+            padding: 12px 25px;
+            background: #3498db;
             color: white;
+            border-radius: 8px;
             text-decoration: none;
-            border-radius: 5px;
+            display: inline-block;
             transition: 0.3s;
         }
 
         .btn:hover {
-            background-color: #2980b9;
+            background: #2980b9;
         }
+
+        .hero img {
+            width: 350px;
+        }
+
+        /* FITUR */
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 40px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            width: 250px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+        }
+
     </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- Gambar -->
-    <img src="{{ asset('images/image1.png') }}" class="image" alt="Credit Illustration">
+<!-- NAVBAR -->
+<div class="navbar">
+    <h2>SPK Kredit</h2>
+    <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="/predict">Predict</a>
+    </div>
+</div>
 
-    <!-- Judul -->
-    <div class="title">
-        Prediksi Risiko Kredit Berbasis Machine Learning
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-text">
+        <h1>Prediksi Risiko Kredit dengan Machine Learning</h1>
+        <p>Sistem ini membantu menganalisis kelayakan kredit pelanggan secara cepat dan akurat menggunakan teknologi AI.</p>
+        <a href="/predict" class="btn">Mulai Prediksi</a>
     </div>
 
-    <!-- Sub Judul -->
-    <div class="subtitle">
-        Sistem pendukung keputusan untuk menganalisis risiko kredit pelanggan
+    <img src="{{ asset('images/image1.png') }}" alt="illustration">
+</div>
+
+<!-- FITUR -->
+<div class="features">
+    <div class="card">
+        <h3>⚡ Cepat</h3>
+        <p>Proses prediksi hanya dalam hitungan detik.</p>
     </div>
 
-    <!-- Tombol -->
-    <a href="/predict" class="btn">
-        Mulai Prediksi
-    </a>
+    <div class="card">
+        <h3>📊 Akurat</h3>
+        <p>Didukung model machine learning terpercaya.</p>
+    </div>
+
+    <div class="card">
+        <h3>💡 Mudah</h3>
+        <p>Interface sederhana dan user-friendly.</p>
+    </div>
 </div>
 
 </body>
