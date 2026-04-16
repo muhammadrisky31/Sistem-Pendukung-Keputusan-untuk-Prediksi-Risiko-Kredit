@@ -102,9 +102,10 @@
 <div class="navbar">
     <h2>SPK Kredit</h2>
     <div class="nav-links">
-        <a href="#">Home</a>
+        <a href="/">Home</a>
+        <a href="/predict" class="active">Predict</a>
+        <a href="#">History</a>
         <a href="#">About</a>
-        <a href="/predict">Predict</a>
     </div>
 </div>
 
