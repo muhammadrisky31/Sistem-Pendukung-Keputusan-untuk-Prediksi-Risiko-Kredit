@@ -14,11 +14,14 @@ Route::get('/', function () {
     return view('landing');
 });
 
-Route::get('/predict', function () {
+
+Route::get('/prediksi', function () {
     return view('predict');
+})->name('prediksi');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
 });
-
-
 // ================= REGISTER =================
 
 Route::get('/register', function () {
@@ -40,6 +43,17 @@ Route::post('/register', function (Request $request) {
     return redirect('/users');
 });
 
+Route::get('/riwayat', function () {
+    return view('riwayat');
+})->name('riwayat');
+
+Route::get('/tentang', function () {
+    return view('tentang');
+})->name('tentang');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
 
 // ================= LOGIN TANPA AUTH =================
 
