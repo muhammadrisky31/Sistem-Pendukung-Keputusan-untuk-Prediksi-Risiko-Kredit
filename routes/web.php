@@ -10,40 +10,24 @@ use App\Models\User;
 |--------------------------------------------------------------------------
 */
 
-// ================= LANDING =================
 Route::get('/', function () {
     return view('landing');
 });
 
-// ================= HALAMAN UTAMA =================
-Route::get('/dashboard', function () {
-
-    if (!session('user_id')) {
-        return redirect('/login');
-    }
-
-    return view('dashboard');
-})->name('dashboard');
 
 Route::get('/prediksi', function () {
-
-    if (!session('user_id')) {
-        return redirect('/login');
-    }
-
     return view('predict');
 })->name('prediksi');
 
-Route::get('/riwayat', function () {
-    return view('riwayat');
-})->name('riwayat');
-
-Route::get('/tentang', function () {
-    return view('tentang');
-})->name('tentang');
-
-
+Route::get('/dashboard', function () {
+    return view('dashboard');
+});
 // ================= REGISTER =================
+
+Route::get('/register', function () {
+    return view('register');
+});
+
 Route::get('/register', function () {
     return view('register');
 })->name('register');
@@ -56,15 +40,29 @@ Route::post('/register', function (Request $request) {
         'password' => Hash::make($request->password),
     ]);
 
-    return redirect('/users'); // tetap ke users
+    return redirect('/users');
 });
 
+Route::get('/riwayat', function () {
+    return view('riwayat');
+})->name('riwayat');
 
-// ================= LOGIN =================
+Route::get('/tentang', function () {
+    return view('tentang');
+})->name('tentang');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
+
+// ================= LOGIN TANPA AUTH =================
+
+// FORM LOGIN
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 
+// PROSES LOGIN
 Route::post('/login', function (Request $request) {
 
     $user = User::where('email', $request->email)->first();
@@ -83,20 +81,21 @@ Route::post('/login', function (Request $request) {
         'user_name' => $user->name
     ]);
 
-    return redirect('/dashboard'); // 🔥 INI YANG DIGANTI
+    return redirect('/users');
 });
 
-
-// ================= LOGOUT =================
+// LOGOUT
 Route::get('/logout', function () {
     session()->flush();
     return redirect('/login');
 });
 
 
-// ================= USERS =================
+// ================= TAMPIL DATA =================
+
 Route::get('/users', function () {
 
+    // PROTEKSI LOGIN
     if (!session('user_id')) {
         return redirect('/login');
     }
