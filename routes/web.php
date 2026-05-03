@@ -3,6 +3,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Prediksi;
+use App\Http\Controllers\PrediksiController;
+use App\Http\Controllers\HasilController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +24,12 @@ Route::get('/dashboard', function () {
     if (!Auth::check()) {
         return redirect('/login');
     }
-    return view('dashboard');
+    $totalPrediksi   = Prediksi::where('user_id', Auth::id())->count();
+    $risikoTinggi    = Prediksi::where('user_id', Auth::id())->where('hasil', 'Risiko Tinggi')->count();
+    $risikoRendah    = Prediksi::where('user_id', Auth::id())->where('hasil', 'Risiko Rendah')->count();
+    $prediksiTerbaru = Prediksi::where('user_id', Auth::id())->latest()->take(3)->get();
+
+    return view('dashboard', compact('totalPrediksi', 'risikoTinggi', 'risikoRendah', 'prediksiTerbaru'));
 })->name('dashboard');
 
 Route::get('/prediksi', function () {
@@ -31,12 +40,22 @@ Route::get('/prediksi', function () {
 })->name('prediksi');
 
 Route::get('/riwayat', function (Request $request) {
-    $data = collect([]); // sementara kosong
-    $totalPrediksi = 0;
-    $risikoTinggi  = 0;
-    $risikoRendah  = 0;
+    $query = Prediksi::where('user_id', Auth::id());
 
-    return view('riwayat', compact('data','totalPrediksi','risikoTinggi','risikoRendah'));
+    if ($request->search) {
+        $query->where(function($q) use ($request) {
+            $q->where('nama', 'like', '%'.$request->search.'%')
+              ->orWhere('tujuan', 'like', '%'.$request->search.'%')
+              ->orWhere('status_rumah', 'like', '%'.$request->search.'%');
+        });
+    }
+
+    $data          = $query->latest()->get();
+    $totalPrediksi = $data->count();
+    $risikoTinggi  = $data->where('hasil', 'Risiko Tinggi')->count();
+    $risikoRendah  = $data->where('hasil', 'Risiko Rendah')->count();
+
+    return view('riwayat', compact('data', 'totalPrediksi', 'risikoTinggi', 'risikoRendah'));
 })->middleware('auth')->name('riwayat');
 
 Route::get('/tentang', function () {
@@ -94,3 +113,11 @@ Route::get('/users', function () {
     $users = User::all();
     return view('users', compact('users'));
 });
+
+Route::post('/prediksi', [PrediksiController::class, 'store'])
+    ->middleware('auth')
+    ->name('prediksi.store');
+
+Route::get('/hasil/{id}', [HasilController::class, 'show'])
+    ->middleware('auth')
+    ->name('hasil.show');

@@ -135,40 +135,31 @@
             </div>
         </div>
 
-        {{-- Navigation Links --}}
-        <div style="display:flex; align-items:center; gap:4px;">
-            <a href="{{ route('dashboard') }}" class="nav-active nav-link" style="font-weight:500; font-size:14px;">
+                {{-- Navigation Links --}}
+       <div style="display:flex; align-items:center; gap:4px; position:absolute; left:50%; transform:translateX(-50%);">
+            <a href="{{ route('dashboard') }}" 
+            class="nav-link {{ request()->routeIs('dashboard') ? 'nav-active' : '' }}">
                 <i class="fa-solid fa-table-cells-large" style="font-size:13px;"></i>
                 Dashboard
             </a>
-            <a href="{{ route('prediksi') }}" class="nav-link">
+            <a href="{{ route('prediksi') }}" 
+            class="nav-link {{ request()->routeIs('prediksi*') ? 'nav-active' : '' }}">
                 <i class="fa-solid fa-chart-line" style="font-size:13px;"></i>
                 Prediksi
             </a>
-            <a href="{{ route('riwayat') }}" class="nav-link">
+            <a href="{{ route('riwayat') }}" 
+            class="nav-link {{ request()->routeIs('riwayat*') ? 'nav-active' : '' }}">
                 <i class="fa-regular fa-clock" style="font-size:13px;"></i>
                 Riwayat
             </a>
-            <a href="{{ route('tentang') }}" class="nav-link">
+            <a href="{{ route('tentang') }}" 
+            class="nav-link {{ request()->routeIs('tentang*') ? 'nav-active' : '' }}">
                 <i class="fa-solid fa-circle-info" style="font-size:13px;"></i>
                 Tentang
             </a>
         </div>
 
-        {{-- Right: Bell + User --}}
-        <div style="display:flex; align-items:center; gap:10px;">
-            {{-- Notification Bell --}}
-            <button style="width:38px; height:38px; border-radius:50%; border:1px solid #e5e7eb; background:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; position:relative; transition:background 0.15s;" onmouseover="this.style.background='#f9fafb'" onmouseout="this.style.background='#fff'">
-                <i class="fa-regular fa-bell" style="font-size:16px; color:#6b7280;"></i>
-                <span style="position:absolute; top:8px; right:8px; width:8px; height:8px; background:#ef4444; border-radius:50%; border:1.5px solid #fff;"></span>
-            </button>
-
-            {{-- User --}}
-            <div style="display:flex; align-items:center; gap:8px; cursor:pointer; padding:5px 10px; border-radius:10px; transition:background 0.15s;" onmouseover="this.style.background='#f9fafb'" onmouseout="this.style.background='transparent'">
-                <div class="avatar-blue">P</div>
-                <span style="font-size:14px; font-weight:500; color:#374151;">Pengguna</span>
-                <i class="fa-solid fa-chevron-down" style="font-size:11px; color:#9ca3af;"></i>
-            </div>
+       
         </div>
     </div>
 </nav>

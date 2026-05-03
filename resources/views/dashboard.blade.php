@@ -16,7 +16,7 @@
                 &#128075; Selamat datang kembali,
             </p>
             <h1 style="color:#ffffff; font-size:30px; font-weight:800; margin-bottom:10px; letter-spacing:-0.3px;">
-                Risky!
+                {{ Auth::user()->name }}!
             </h1>
             <p style="color:rgba(191,219,254,0.85); font-size:13.5px; line-height:1.65; max-width:480px;">
                 Sistem SPK Kredit siap membantu Anda memprediksi risiko kredit dengan akurasi tinggi berbasis Machine Learning.
@@ -25,18 +25,15 @@
 
         {{-- Right: Decorative Area --}}
         <div style="position:relative; min-width:460px; display:flex; align-items:center; justify-content:flex-end; padding-right:20px; overflow:hidden;">
-
-           
-
-           
-                
-                
-                </div>
-            </div>
         </div>
     </div>
 
     {{-- ===== STAT CARDS ===== --}}
+    @php
+        $persenRendah = $totalPrediksi > 0 ? round(($risikoRendah / $totalPrediksi) * 100) : 0;
+        $persenTinggi = $totalPrediksi > 0 ? round(($risikoTinggi / $totalPrediksi) * 100) : 0;
+    @endphp
+
     <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:28px;">
 
         {{-- Total Prediksi --}}
@@ -44,7 +41,7 @@
             <div class="icon-box icon-blue">
                 <i class="fa-solid fa-chart-column" style="font-size:17px;"></i>
             </div>
-            <div style="font-size:32px; font-weight:800; color:#111827; line-height:1; margin-bottom:6px;">3</div>
+            <div style="font-size:32px; font-weight:800; color:#111827; line-height:1; margin-bottom:6px;">{{ $totalPrediksi }}</div>
             <div style="font-size:13.5px; font-weight:600; color:#4b5563; margin-bottom:3px;">Total Prediksi</div>
             <div style="font-size:12px; color:#9ca3af;">Semua waktu</div>
         </div>
@@ -54,9 +51,9 @@
             <div class="icon-box icon-green">
                 <i class="fa-solid fa-circle-check" style="font-size:17px;"></i>
             </div>
-            <div style="font-size:32px; font-weight:800; color:#111827; line-height:1; margin-bottom:6px;">2</div>
+            <div style="font-size:32px; font-weight:800; color:#111827; line-height:1; margin-bottom:6px;">{{ $risikoRendah }}</div>
             <div style="font-size:13.5px; font-weight:600; color:#4b5563; margin-bottom:3px;">Risiko Rendah</div>
-            <div style="font-size:12px; color:#9ca3af;">67% dari total</div>
+            <div style="font-size:12px; color:#9ca3af;">{{ $persenRendah }}% dari total</div>
         </div>
 
         {{-- Risiko Tinggi --}}
@@ -64,9 +61,9 @@
             <div class="icon-box icon-red">
                 <i class="fa-solid fa-triangle-exclamation" style="font-size:17px;"></i>
             </div>
-            <div style="font-size:32px; font-weight:800; color:#111827; line-height:1; margin-bottom:6px;">1</div>
+            <div style="font-size:32px; font-weight:800; color:#111827; line-height:1; margin-bottom:6px;">{{ $risikoTinggi }}</div>
             <div style="font-size:13.5px; font-weight:600; color:#4b5563; margin-bottom:3px;">Risiko Tinggi</div>
-            <div style="font-size:12px; color:#9ca3af;">33% dari total</div>
+            <div style="font-size:12px; color:#9ca3af;">{{ $persenTinggi }}% dari total</div>
         </div>
 
         {{-- Status Sistem --}}
@@ -135,52 +132,25 @@
             </div>
 
             <div class="prediction-card">
-
-                {{-- Budi Santoso --}}
+                @forelse($prediksiTerbaru as $p)
                 <div class="prediction-row">
-                    <div class="icon-box icon-green" style="margin-bottom:0; flex-shrink:0; width:38px; height:38px; border-radius:10px;">
-                        <i class="fa-solid fa-arrow-trend-down" style="font-size:14px;"></i>
+                    <div class="icon-box {{ $p->hasil === 'Risiko Rendah' ? 'icon-green' : 'icon-red' }}" style="margin-bottom:0; flex-shrink:0; width:38px; height:38px; border-radius:10px;">
+                        <i class="fa-solid {{ $p->hasil === 'Risiko Rendah' ? 'fa-arrow-trend-down' : 'fa-arrow-trend-up' }}" style="font-size:14px;"></i>
                     </div>
                     <div style="flex:1; min-width:0;">
-                        <div style="font-size:13.5px; font-weight:600; color:#1f2937; margin-bottom:3px;">Budi Santoso</div>
-                        <div style="font-size:11.5px; color:#9ca3af;">OWN &middot; PERSONAL &middot; 2026-04-01</div>
+                        <div style="font-size:13.5px; font-weight:600; color:#1f2937; margin-bottom:3px;">{{ $p->nama }}</div>
+                        <div style="font-size:11.5px; color:#9ca3af;">{{ strtoupper($p->status_rumah) }} &middot; {{ strtoupper($p->tujuan) }} &middot; {{ $p->created_at->format('Y-m-d') }}</div>
                     </div>
                     <div style="text-align:right; flex-shrink:0;">
-                        <div><span class="badge-rendah">Risiko Rendah</span></div>
-                        <div style="font-size:12px; color:#9ca3af; margin-top:5px;">87.5%</div>
+                        <div><span class="{{ $p->hasil === 'Risiko Rendah' ? 'badge-rendah' : 'badge-tinggi' }}">{{ $p->hasil }}</span></div>
+                        <div style="font-size:12px; color:#9ca3af; margin-top:5px;">{{ number_format($p->confidence, 1) }}%</div>
                     </div>
                 </div>
-
-                {{-- Siti Rahayu --}}
-                <div class="prediction-row">
-                    <div class="icon-box icon-red" style="margin-bottom:0; flex-shrink:0; width:38px; height:38px; border-radius:10px;">
-                        <i class="fa-solid fa-arrow-trend-up" style="font-size:14px;"></i>
-                    </div>
-                    <div style="flex:1; min-width:0;">
-                        <div style="font-size:13.5px; font-weight:600; color:#1f2937; margin-bottom:3px;">Siti Rahayu</div>
-                        <div style="font-size:11.5px; color:#9ca3af;">RENT &middot; VENTURE &middot; 2026-04-02</div>
-                    </div>
-                    <div style="text-align:right; flex-shrink:0;">
-                        <div><span class="badge-tinggi">Risiko Tinggi</span></div>
-                        <div style="font-size:12px; color:#9ca3af; margin-top:5px;">91.2%</div>
-                    </div>
+                @empty
+                <div style="text-align:center; padding:32px; color:#9ca3af; font-size:13px;">
+                    Belum ada prediksi. <a href="{{ route('prediksi') }}" style="color:#2563eb;">Mulai sekarang</a>
                 </div>
-
-                {{-- Ahmad Fauzi --}}
-                <div class="prediction-row">
-                    <div class="icon-box icon-green" style="margin-bottom:0; flex-shrink:0; width:38px; height:38px; border-radius:10px;">
-                        <i class="fa-solid fa-arrow-trend-down" style="font-size:14px;"></i>
-                    </div>
-                    <div style="flex:1; min-width:0;">
-                        <div style="font-size:13.5px; font-weight:600; color:#1f2937; margin-bottom:3px;">Ahmad Fauzi</div>
-                        <div style="font-size:11.5px; color:#9ca3af;">MORTGAGE &middot; HOMEIMPROVEMENT &middot; 2026-04-03</div>
-                    </div>
-                    <div style="text-align:right; flex-shrink:0;">
-                        <div><span class="badge-rendah">Risiko Rendah</span></div>
-                        <div style="font-size:12px; color:#9ca3af; margin-top:5px;">78.3%</div>
-                    </div>
-                </div>
-
+                @endforelse
             </div>
         </div>
     </div>

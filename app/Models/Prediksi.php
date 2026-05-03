@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Prediksi extends Model
+{
+    protected $fillable = [
+        'user_id', 'nama', 'umur', 'pendapatan', 'status_rumah',
+        'lama_kerja', 'tujuan', 'grade', 'jumlah_pinjaman',
+        'suku_bunga', 'status_pinjaman', 'rasio_pinjaman',
+        'default_kredit', 'lama_riwayat', 'hasil', 'confidence',
+        'riwayat_default',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+}
