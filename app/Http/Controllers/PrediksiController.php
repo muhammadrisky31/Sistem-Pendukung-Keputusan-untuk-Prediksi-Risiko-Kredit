@@ -7,6 +7,7 @@ use App\Models\Prediksi;
 
 class PrediksiController extends Controller
 {
+    
     public function index()
     {
         if (!auth()->check()) return redirect('/login');
@@ -15,6 +16,11 @@ class PrediksiController extends Controller
 
     public function store(Request $request)
     {
+        $request->merge([
+            'pendapatan' => str_replace('.', '', $request->pendapatan),
+            'jumlah_pinjaman' => str_replace('.', '', $request->jumlah_pinjaman),
+        ]);
+        
         $request->validate([
             'nama_nasabah'      => 'required|string|max:100',
             'umur'              => 'required|numeric|min:17|max:100',

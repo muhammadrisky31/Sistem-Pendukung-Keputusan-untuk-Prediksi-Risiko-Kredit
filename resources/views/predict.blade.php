@@ -450,12 +450,12 @@
 
                         <!-- 10. Riwayat Default -->
                         <div class="form-group">
-                            <label class="form-label" for="default_kredit">⚠️ Riwayat Default:</label>
+                            <label class="form-label" for="default_kredit">⚠️ Riwayat Gagal Bayar:</label>
                             <div class="select-wrapper">
                                 <select id="default_kredit" name="default_kredit" class="form-select">
                                     <option value="" disabled {{ old('default_kredit') ? '' : 'selected' }}></option>
-                                    <option value="N" {{ old('default_kredit') === 'N' ? 'selected' : '' }}>Tidak Pernah Default (N)</option>
-                                    <option value="Y" {{ old('default_kredit') === 'Y' ? 'selected' : '' }}>Pernah Default (Y)</option>
+                                    <option value="N" {{ old('default_kredit') === 'N' ? 'selected' : '' }}>Tidak Pernah  (N)</option>
+                                    <option value="Y" {{ old('default_kredit') === 'Y' ? 'selected' : '' }}>Pernah  (Y)</option>
                                 </select>
                                 <span class="select-icon">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
