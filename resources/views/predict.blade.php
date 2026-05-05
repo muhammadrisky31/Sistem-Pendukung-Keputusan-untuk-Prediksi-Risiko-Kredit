@@ -262,7 +262,7 @@
 
                         <!-- 0. Nama Nasabah (full width) -->
                         <div class="form-group full-width">
-                            <label class="form-label" for="nama_nasabah">Nama Nasabah:</label>
+                            <label class="form-label" for="nama_nasabah">👤 Nama Nasabah:</label>
                             <input
                                 type="text"
                                 id="nama_nasabah"
@@ -278,7 +278,7 @@
 
                         <!-- 1. Umur Orang -->
                         <div class="form-group">
-                            <label class="form-label" for="umur">Umur Orang:</label>
+                            <label class="form-label" for="umur">📅 Umur Orang:</label>
                             <input
                                 type="number"
                                 id="umur"
@@ -299,26 +299,28 @@
 
                         <!-- 2. Pendapatan (IDR) -->
                         <div class="form-group">
-                            <label class="form-label" for="pendapatan">Pendapatan per Tahun (IDR):</label>
+                            <label class="form-label" for="pendapatan">💰 Pendapatan per Tahun (IDR):</label>
                             <input
-                                type="number"
+                                type="text"
                                 id="pendapatan"
                                 name="pendapatan"
                                 class="form-input"
-                                placeholder="Contoh: 60000000"
+                                placeholder="Contoh: 60.000.000"
                                 value="{{ old('pendapatan') }}"
-                                min="1"
-                                step="1"
-                                oninput="hitungPersen()"
+                                oninput="formatRupiah(this); hitungPersen()"
                             >
-                            <span class="form-hint">⚠️ Masukkan pendapatan per tahun</span>
+
+                            <span class="form-hint">
+                                ⚠️ Masukkan pendapatan per tahun
+                            </span>
                         </div>
 
                         <!-- 3. Kepemilikan Rumah -->
                         <div class="form-group">
-                            <label class="form-label" for="kepemilikan_rumah">Kepemilikan Rumah:</label>
+                            <label class="form-label" for="kepemilikan_rumah">🏠 Kepemilikan Rumah:</label>
                             <div class="select-wrapper">
                                 <select id="kepemilikan_rumah" name="kepemilikan_rumah" class="form-select">
+                                    <option value="" disabled selected('kepemilikan_rumah') ? '' : 'selected' }}>Pilih status rumah</option>
                                     <option value="" disabled {{ old('kepemilikan_rumah') ? '' : 'selected' }}></option>
                                     <option value="RENT"     {{ old('kepemilikan_rumah') == 'RENT'     ? 'selected' : '' }}>Sewa (RENT)</option>
                                     <option value="OWN"      {{ old('kepemilikan_rumah') == 'OWN'      ? 'selected' : '' }}>Milik Sendiri (OWN)</option>
@@ -335,7 +337,7 @@
 
                         <!-- 4. Lama Kerja -->
                         <div class="form-group">
-                            <label class="form-label" for="lama_kerja">Lama Kerja (tahun):</label>
+                            <label class="form-label" for="lama_kerja">💼 Lama Kerja (tahun):</label>
                             <input
                                 type="number"
                                 id="lama_kerja"
@@ -359,7 +361,7 @@
 
                         <!-- 5. Tujuan Pinjaman -->
                         <div class="form-group">
-                            <label class="form-label" for="tujuan_pinjaman">Tujuan Pinjaman:</label>
+                            <label class="form-label" for="tujuan_pinjaman">🎯 Tujuan Pinjaman:</label>
                             <div class="select-wrapper">
                                 <select id="tujuan_pinjaman" name="tujuan_pinjaman" class="form-select">
                                     <option value="" disabled {{ old('tujuan_pinjaman') ? '' : 'selected' }}></option>
@@ -380,7 +382,7 @@
 
                         <!-- 6. Grade Pinjaman -->
                         <div class="form-group">
-                            <label class="form-label" for="grade_pinjaman">Grade Pinjaman:</label>
+                            <label class="form-label" for="grade_pinjaman">⭐ Grade Pinjaman:</label>
                             <div class="select-wrapper">
                                 <select id="grade_pinjaman" name="grade_pinjaman" class="form-select">
                                     <option value="" disabled {{ old('grade_pinjaman') ? '' : 'selected' }}></option>
@@ -402,23 +404,21 @@
 
                         <!-- 7. Jumlah Pinjaman -->
                         <div class="form-group">
-                            <label class="form-label" for="jumlah_pinjaman">Jumlah Pinjaman (IDR):</label>
+                            <label class="form-label" for="jumlah_pinjaman">💵 Jumlah Pinjaman (IDR):</label>
                             <input
-                                type="number"
-                                id="jumlah_pinjaman"
-                                name="jumlah_pinjaman"
+                                type="text"
+                                id="pinjaman"
+                                name="pinjaman"
                                 class="form-input"
-                                placeholder="Contoh: 5000000"
+                                placeholder="Contoh: 5.000.000"
                                 value="{{ old('jumlah_pinjaman') }}"
-                                min="0"
-                                step="1"
-                                oninput="hitungPersen()"
+                                oninput="formatRupiah(this); hitungPersen()"
                             >
                         </div>
 
                         <!-- 8. Suku Bunga -->
                         <div class="form-group">
-                            <label class="form-label" for="suku_bunga">Suku Bunga (%):</label>
+                            <label class="form-label" for="suku_bunga">📊 Suku Bunga (%):</label>
                             <input
                                 type="number"
                                 id="suku_bunga"
@@ -434,7 +434,7 @@
 
                         <!-- 9. Persentase Pendapatan (AUTO-HITUNG) -->
                         <div class="form-group">
-                            <label class="form-label" for="persen_tampil">Persentase Pendapatan:</label>
+                            <label class="form-label" for="persen_tampil">📈 Persentase Pendapatan:</label>
                             <input type="hidden" id="persen_pinjaman" name="persen_pinjaman" value="{{ old('persen_pinjaman') }}">
                             <input
                                 type="number"
@@ -450,7 +450,7 @@
 
                         <!-- 10. Riwayat Default -->
                         <div class="form-group">
-                            <label class="form-label" for="default_kredit">Riwayat Default:</label>
+                            <label class="form-label" for="default_kredit">⚠️ Riwayat Default:</label>
                             <div class="select-wrapper">
                                 <select id="default_kredit" name="default_kredit" class="form-select">
                                     <option value="" disabled {{ old('default_kredit') ? '' : 'selected' }}></option>
@@ -467,7 +467,7 @@
 
                         <!-- 11. Lama Riwayat Kredit -->
                         <div class="form-group">
-                            <label class="form-label" for="lama_kredit">Lama Riwayat Kredit (tahun):</label>
+                            <label class="form-label" for="lama_kredit">📚 Lama Riwayat Kredit (tahun):</label>
                             <input
                                 type="number"
                                 id="lama_kredit"
@@ -520,6 +520,31 @@
                 hitungPersen();
             }
         });
+
+        
+        function formatRupiah(input) {
+
+            let angka = input.value.replace(/[^,\d]/g, '');
+
+            let split = angka.split(',');
+
+            let sisa = split[0].length % 3;
+
+            let rupiah = split[0].substr(0, sisa);
+
+            let ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+            if (ribuan) {
+
+            let separator = sisa ? '.' : '';
+
+            rupiah += separator + ribuan.join('.');
+        }
+
+        input.value = split[1] != undefined
+            ? rupiah + ',' + split[1]
+            : rupiah;
+        }
     </script>
 
 @endsection
